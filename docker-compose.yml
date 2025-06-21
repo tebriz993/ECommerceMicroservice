@@ -1,11 +1,13 @@
 version: '3.8'
+
 services:
+  # Infrastructure
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - "5672:5672"   # AMQP port
+      - "15672:15672" # Management UI
     networks:
       - ecommerce-network
 
@@ -16,9 +18,8 @@ services:
       - "6379:6379"
     networks:
       - ecommerce-network
-      
-  # HeR SERV?S?N ÖZ DATABASE-i ÜÇÜN BURA ?LAV?L?R ED?L?C?K
-  # M?s?l?n, ProductService üçün PostgreSQL:
+
+  #  Service databases
   productdb:
     image: postgres
     container_name: productdb
@@ -28,9 +29,61 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=productdb
+    volumes:
+      - product-data:/var/lib/postgresql/data
     networks:
       - ecommerce-network
+
+  identitydb:
+    image: postgres
+    container_name: identitydb
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=identitydb
+    volumes:
+      - identity-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+  orderingdb:
+    image: postgres
+    container_name: orderingdb
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=orderingdb
+    volumes:
+      - ordering-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+
+  paymentdb:
+    image: postgres
+    container_name: paymentdb
+    ports:
+      - "5435:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=paymentdb
+    volumes:
+      - payment-data:/var/lib/postgresql/data
+    networks:
+      - ecommerce-network
+ 
+  # NotificationService might store sent notification logs.
 
 networks:
   ecommerce-network:
     driver: bridge
+
+volumes:
+  product-data:
+  identity-data:
+  ordering-data:
+  payment-data:
