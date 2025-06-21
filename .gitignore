@@ -1,0 +1,41 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+
+# Rider
+.idea/
+
+# User-specific files
+*.DS_Store
+Thumbs.db
+
+# Environment-specific settings
+appsettings.Development.json
+appsettings.*.json
+!appsettings.Template.json
+
+# Secrets
+secrets.json
+
+# Dotnet-ef
+*.dbmdl
+
+# Packages
+/packages
+/node_modules
+
+# Log files
+*.log
+
+# Temp files
+*.tmp
+
+# Cache files
+*.cache

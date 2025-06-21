@@ -1,0 +1,36 @@
+version: '3.8'
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - ecommerce-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ecommerce-network
+      
+  # HeR SERV?S?N ÖZ DATABASE-i ÜÇÜN BURA ?LAV?L?R ED?L?C?K
+  # M?s?l?n, ProductService üçün PostgreSQL:
+  productdb:
+    image: postgres
+    container_name: productdb
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=productdb
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
