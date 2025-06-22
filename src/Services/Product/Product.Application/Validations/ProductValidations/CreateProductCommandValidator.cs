@@ -1,5 +1,4 @@
-﻿// Product.Application/Features/Products/Commands/CreateProductCommandValidator.cs
-using FluentValidation;
+﻿using FluentValidation;
 using Product.Application.Features.Products.Commands;
 
 namespace Product.Application.Validations.ProductValidations
@@ -8,17 +7,22 @@ namespace Product.Application.Validations.ProductValidations
     {
         public CreateProductCommandValidator()
         {
-            RuleFor(p => p.Name)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .NotNull()
-                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
+            // DTO-nun içindəki obyektə qayda yazmaq üçün RuleFor-u zəncirvari istifadə edirik.
+            RuleFor(p => p.CreateProductDto).NotNull();
 
-            RuleFor(p => p.Price)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .GreaterThan(0).WithMessage("{PropertyName} must be greater than zero.");
+            RuleFor(p => p.CreateProductDto.Name)
+                .NotEmpty().WithMessage("Product name is required.")
+                .MaximumLength(150).WithMessage("Product name cannot exceed 150 characters.");
 
-            RuleFor(p => p.CategoryId)
-                .NotEmpty().WithMessage("{PropertyName} is required.");
+            RuleFor(p => p.CreateProductDto.Price)
+                .GreaterThan(0).WithMessage("Price must be greater than 0.");
+
+            RuleFor(p => p.CreateProductDto.CategoryId)
+                .NotEmpty().WithMessage("A category must be selected.");
+
+            RuleFor(p => p.CreateProductDto.Images)
+                .Must(images => images == null || !images.Any() || images.Count(i => i.IsMainImage) == 1)
+                .WithMessage("A product must have exactly one main image if images are provided.");
         }
     }
 }

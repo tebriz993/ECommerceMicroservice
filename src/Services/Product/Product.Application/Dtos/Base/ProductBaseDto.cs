@@ -1,4 +1,4 @@
-﻿namespace Product.Application.Dtos.Product
+﻿namespace Product.Application.Dtos
 {
     public abstract class ProductBaseDto
     {

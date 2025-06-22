@@ -23,12 +23,11 @@ public static class PersistenceServiceRegistration
 
         services.AddScoped<IProductRepository, ProductRepository>();
         services.AddScoped<ICategoryRepository, CategoryRepository>();
-        services.AddScoped<IProductImageRepository, ProductImageRepository>();
         services.AddScoped<IProductTagRepository, ProductTagRepository>();
-        services.AddScoped<IProductVariantRepository, ProductVariantRepository>();
         services.AddScoped<IReviewRepository, ReviewRepository>();
         services.AddScoped<IDiscountRepository, DiscountRepository>();
         services.AddScoped<ITestimonialRepository, TestimonialRepository>();
+
         // ... digər repositorilər
 
         // UnitOfWork qeydiyyatı (DI container ona yuxarıdakı repozitoriləri ötürəcək)

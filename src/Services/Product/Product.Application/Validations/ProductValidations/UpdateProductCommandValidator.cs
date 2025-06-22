@@ -7,10 +7,16 @@ namespace Product.Application.Validations.ProductValidations
     {
         public UpdateProductCommandValidator()
         {
-            RuleFor(p => p.Id).NotEmpty();
-            RuleFor(p => p.Name)
-                .NotEmpty().WithMessage("{PropertyName} is required.")
-                .MaximumLength(100).WithMessage("{PropertyName} must not exceed 100 characters.");
+            RuleFor(p => p.Id).NotEmpty().WithMessage("Product ID is required for an update operation.");
+
+            RuleFor(p => p.UpdateProductDto).NotNull();
+
+            RuleFor(p => p.UpdateProductDto.Name)
+                .NotEmpty().WithMessage("Product name is required.")
+                .MaximumLength(150).WithMessage("Product name cannot exceed 150 characters.");
+
+            RuleFor(p => p.UpdateProductDto.Price)
+                .GreaterThan(0).WithMessage("Price must be greater than 0.");
         }
     }
 }

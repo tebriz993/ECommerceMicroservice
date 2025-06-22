@@ -13,9 +13,7 @@ public class UnitOfWork : IUnitOfWork
         ProductDbContext dbContext,
         IProductRepository productRepository,
         ICategoryRepository categoryRepository,
-        IProductImageRepository productImageRepository,
         IProductTagRepository productTagRepository,
-        IProductVariantRepository productVariantRepository,
         IReviewRepository reviewRepository,
         IDiscountRepository discountRepository,
         ITestimonialRepository testimonialRepository)
@@ -23,9 +21,7 @@ public class UnitOfWork : IUnitOfWork
         _dbContext = dbContext;
         ProductRepository = productRepository;
         CategoryRepository = categoryRepository;
-        ProductImageRepository = productImageRepository;
         ProductTagRepository = productTagRepository;
-        ProductVariantRepository = productVariantRepository;
         ReviewRepository = reviewRepository;
         DiscountRepository = discountRepository;
         TestimonialRepository = testimonialRepository;
@@ -35,9 +31,7 @@ public class UnitOfWork : IUnitOfWork
     // Property-lər DI-dən gələn instansiyaları saxlayır.
     public IProductRepository ProductRepository { get; }
     public ICategoryRepository CategoryRepository { get; }
-    public IProductImageRepository ProductImageRepository { get; }
     public IProductTagRepository ProductTagRepository { get; }
-    public IProductVariantRepository ProductVariantRepository { get; }
     public IReviewRepository ReviewRepository { get; }
     public IDiscountRepository DiscountRepository { get; }
     public ITestimonialRepository TestimonialRepository { get; }

@@ -3,6 +3,7 @@ using MediatR;
 using Product.Application.Interfaces;
 using Product.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,7 +22,7 @@ namespace Product.Application.Features.Reviews.Commands
 
         public async Task<Guid> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            // Məhsulun mövcudluğunu yoxlamaq (opsional, amma yaxşı təcrübədir)
+            // Məhsulun mövcudluğunu yoxlayırıq.
             var productExists = await _unitOfWork.ProductRepository.GetByIdAsync(request.ReviewDto.ProductId) != null;
             if (!productExists)
             {
@@ -30,8 +31,9 @@ namespace Product.Application.Features.Reviews.Commands
 
             var review = _mapper.Map<Review>(request.ReviewDto);
 
-            // IReviewRepository-ni IUnitOfWork-a əlavə etməlisiniz.
-            await _unitOfWork.ProductRepository.AddAsync(review);
+            // DÜZƏLİŞ: Artıq düzgün repozitorini istifadə edirik.
+            await _unitOfWork.ReviewRepository.AddAsync(review);
+
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return review.Id;
