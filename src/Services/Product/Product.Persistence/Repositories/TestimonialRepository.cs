@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Product.Application.Features.Testimonial.Queries;
 using Product.Application.Interfaces;
 using Product.Domain.Entities;
 using Product.Infrastructure.Persistence.Context;
@@ -28,6 +29,21 @@ namespace Product.Persistence.Repositories
                 .OrderByDescending(t => t.CreatedAt) // Ən yeniləri göstərmək üçün
                 .Take(count)
                 .ToListAsync();
+        }
+        public async Task<(IEnumerable<Testimonial> Testimonials, int TotalCount)> GetTestimonialsByPageAsync(GetTestimonialsByPageQuery queryParams)
+        {
+            var query = DbContext.Testimonials.AsNoTracking();
+
+            var totalCount = await query.CountAsync();
+
+            var pagedQuery = query
+                .OrderByDescending(t => t.CreatedAt)
+                .Skip((queryParams.PageNumber - 1) * queryParams.PageSize)
+                .Take(queryParams.PageSize);
+
+            var testimonials = await pagedQuery.ToListAsync();
+
+            return (testimonials, totalCount);
         }
     }
 }

@@ -19,13 +19,4 @@
     <ProjectReference Include="..\Product.Domain\Product.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\ProductTags\Commands\" />
-    <Folder Include="Features\ProductTags\Queries\" />
-    <Folder Include="Features\Testimonial\Commands\" />
-    <Folder Include="Features\Testimonial\Queries\" />
-    <Folder Include="Validations\TestimonialValidators\" />
-    <Folder Include="Validations\ProductTagsValidators\" />
-  </ItemGroup>
-
 </Project>

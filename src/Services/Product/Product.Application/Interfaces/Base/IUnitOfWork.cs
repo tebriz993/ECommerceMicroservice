@@ -10,6 +10,7 @@ namespace Product.Application.Interfaces
         IProductTagRepository ProductTagRepository { get; }
         IReviewRepository ReviewRepository { get; }
         IDiscountRepository DiscountRepository { get; }
+        ITestimonialRepository TestimonialRepository { get; }
         //add other repositories there...
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

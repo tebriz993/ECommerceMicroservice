@@ -10,5 +10,6 @@ namespace Product.Application.Interfaces
     {
         Task<ProductTag> GetByNameAsync(string name);
         Task<IReadOnlyList<ProductTag>> GetTagsByProductIdAsync(Guid productId);
+        Task<IReadOnlyList<ProductTag>> GetAllWithProductCountAsync(bool trackChanges = false);
     }
 }

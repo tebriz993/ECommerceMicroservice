@@ -1,12 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AutoMapper;
+using Product.Application.Dtos.ProductTags;
+using Product.Domain.Entities;
 
 namespace Product.Application.AutoMapper
 {
-    internal class ProductTagsProfile
+    public class ProductTagsProfile : Profile
     {
+        public ProductTagsProfile()
+        {
+            CreateMap<ProductTag, ProductTagDto>();
+
+            CreateMap<ProductTag, ProductTagWithProductCountDto>()
+                .ForMember(dest => dest.ProductCount,
+                           opt => opt.MapFrom(src => src.Products.Count));
+
+            CreateMap<CreateProductTagDto, ProductTag>();
+
+            CreateMap<UpdateProductTagDto, ProductTag>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore());
+        }
     }
 }

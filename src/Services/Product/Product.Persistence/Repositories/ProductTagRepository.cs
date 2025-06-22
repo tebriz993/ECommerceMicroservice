@@ -23,4 +23,12 @@ public class ProductTagRepository : RepositoryBase<ProductTag>, IProductTagRepos
             .Where(pt => pt.Products.Any(p => p.Id == productId))
             .ToListAsync();
     }
+    public async Task<IReadOnlyList<ProductTag>> GetAllWithProductCountAsync(bool trackChanges = false)
+    {
+        var query = !trackChanges ? DbContext.ProductTags.AsNoTracking() : DbContext.ProductTags;
+
+        return await query
+            .Include(t => t.Products)
+            .ToListAsync();
+    }
 }
