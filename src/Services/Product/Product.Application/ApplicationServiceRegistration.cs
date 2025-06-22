@@ -1,4 +1,5 @@
 ﻿// Product.Application/ApplicationServiceRegistration.cs
+
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,7 @@ namespace Product.Application
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
             // Register FluentValidation
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());//error verir bunada baxarsan
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             // Add pipeline behaviors
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));

@@ -20,7 +20,7 @@ namespace Product.Infrastructure.Persistence.Configurations
                 .HasMaxLength(100);
 
             builder.Property(r => r.Comment)
-                .HasColumnType("nvarchar(max)");
+                .HasMaxLength(1000);
 
             builder.Property(r => r.Rating)
                 .IsRequired();

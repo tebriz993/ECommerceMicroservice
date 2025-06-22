@@ -17,7 +17,7 @@ namespace Product.Infrastructure.Persistence.Configurations
                 .HasMaxLength(100);
 
             builder.Property(p => p.Description)
-                .HasColumnType("nvarchar(max)");
+                .IsRequired();
 
             builder.Property(p => p.Price)
                 .HasColumnType("decimal(18,2)")

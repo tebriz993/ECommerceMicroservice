@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Product.Application.Exceptions;
 using Product.Application.Interfaces;
+using Product.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,7 +22,7 @@ public class DeleteCategoryCommandHandler : IRequestHandler<DeleteCategoryComman
 
         if (categoryToDelete is null)
         {
-            throw new KeyNotFoundException($"Category with id {request.Id} not found.");
+            throw new NotFoundException(nameof(Category), request.Id);
         }
 
         // Burada biznes məntiqi ola bilər: Məsələn, içində məhsul olan kateqoriyanı silməyə icazə verməmək.

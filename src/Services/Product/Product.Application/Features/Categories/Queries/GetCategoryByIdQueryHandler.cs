@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using MediatR;
 using Product.Application.Dtos.Category;
+using Product.Application.Exceptions;
 using Product.Application.Interfaces;
+using Product.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,7 +35,7 @@ namespace Product.Application.Features.Categories.Queries
 
             if (category is null)
             {
-                throw new KeyNotFoundException($"Category with id {request.Id} not found.");
+                throw new NotFoundException(nameof(Category), request.Id);
             }
 
             return _mapper.Map<CategoryWithProductsDto>(category);

@@ -15,7 +15,7 @@ namespace Product.Application.AutoMapper
             // Əsas çevirmə: Products -> ProductDto
             CreateMap<Products, ProductDto>()
                 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : null))
-                .ForMember(dest => dest., opt => opt.MapFrom(src => src.Reviews != null ? src.Reviews.Count : 0));
+                .ForMember(dest => dest.ReviewCount, opt => opt.MapFrom(src => src.Reviews != null ? src.Reviews.Count : 0));
 
             // Detallı səhifə üçün
             CreateMap<Products, ProductDetailsDto>().IncludeBase<Products, ProductDto>();

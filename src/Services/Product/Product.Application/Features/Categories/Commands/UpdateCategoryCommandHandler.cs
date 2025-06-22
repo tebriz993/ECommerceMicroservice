@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using MediatR;
+using Product.Application.Exceptions;
 using Product.Application.Interfaces;
+using Product.Domain.Entities;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,7 +27,7 @@ public class UpdateCategoryCommandHandler : IRequestHandler<UpdateCategoryComman
         // 2. Obyekt tapılmazsa, xəta atırıq. (NotFoundException daha yaxşıdır)
         if (categoryToUpdate is null)
         {
-            throw new KeyNotFoundException($"Category with id {request.Id} not found.");
+            throw new NotFoundException(nameof(Category), request.Id);
         }
 
         // 3. AutoMapper ilə DTO-dakı məlumatları mövcud entity üzərinə yazırıq.

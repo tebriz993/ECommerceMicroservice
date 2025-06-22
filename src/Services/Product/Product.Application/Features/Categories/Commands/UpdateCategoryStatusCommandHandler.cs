@@ -2,7 +2,9 @@
 using Product.Application.Interfaces; // IUnitOfWork üçün
 using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic; // KeyNotFoundException üçün
+using System.Collections.Generic;
+using Product.Application.Exceptions;
+using Product.Domain.Entities; // KeyNotFoundException üçün
 
 namespace Product.Application.Features.Categories.Commands;
 
@@ -23,9 +25,7 @@ public class UpdateCategoryStatusCommandHandler : IRequestHandler<UpdateCategory
         // 2. Əgər belə bir kateqoriya tapılmazsa, xəta atırıq.
         if (categoryToUpdate is null)
         {
-            // Daha yaxşı bir yanaşma, Application qatında yaradılmış xüsusi bir
-            // NotFoundException atmaqdır ki, API qatında 404 Not Found status kodu qaytarılsın.
-            throw new KeyNotFoundException($"Category with ID '{request.Id}' was not found.");
+            throw new NotFoundException(nameof(Category), request.Id);
         }
 
         // 3. Kateqoriyanın statusunu yeniləyirik.

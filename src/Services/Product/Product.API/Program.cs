@@ -1,6 +1,7 @@
 using Product.Application;
 using Product.Persistence;
 using Product.Infrastructure;
+using Product.API.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,8 +40,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHttpsRedirection();
+}
 
-app.UseHttpsRedirection();
+    
+    app.UseMiddleware<ErrorHandlerMiddleware>();
 
 // CORS siyas?tini t?tbiq edirik.
 app.UseCors("AllowAll");
