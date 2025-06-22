@@ -26,8 +26,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=12qw
       - POSTGRES_DB=productdb
     volumes:
       - product-data:/var/lib/postgresql/data

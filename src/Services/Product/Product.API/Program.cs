@@ -1,49 +1,52 @@
 using Product.Application;
-using Product.Infrastructure;
 using Product.Persistence;
+using Product.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-
+// --- Add services to the DI container. ---
+// 1. Application lay?n?n servisl?rini ?lav? et (MediatR, AutoMapper, FluentValidation, Behaviors)
 builder.Services.AddApplicationServices();
+
+// 2. Persistence lay?n?n servisl?rini ?lav? et (DbContext, Repositories, UnitOfWork)
 builder.Services.AddPersistenceServices(builder.Configuration);
+
+// 3. Infrastructure lay?n?n servisl?rini ?lav? et (g?l?c?kd? Email, Cache v? s.)
 builder.Services.AddInfrastructureServices(builder.Configuration);
+
+// ASP.NET Core-un öz servisl?ri
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+// CORS (Cross-Origin Resource Sharing) siyas?tini ?lav? etm?k (Frontend il? ?laq? üçün vacibdir)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder => builder.AllowAnyOrigin()
+                          .AllowAnyMethod()
+                          .AllowAnyHeader());
+});
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// --- Configure the HTTP request pipeline. ---
+
+// Development mühitind? Swagger UI-? aktivl??diririk.
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+// CORS siyas?tini t?tbiq edirik.
+app.UseCors("AllowAll");
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+app.UseAuthorization();
+
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
