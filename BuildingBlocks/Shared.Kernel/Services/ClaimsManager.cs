@@ -17,13 +17,9 @@ namespace Shared.Kernel.Services
 
 
         private ClaimsPrincipal? GetUser() => _httpContextAccessor.HttpContext?.User;
-
-        // Köməkçi bir metod yaradırıq ki, kod təkrarçılığı olmasın.
         private string? GetClaimValue(string claimType)
         {
-            // FindFirst metodu Claim obyektini qaytarır.
             var claim = GetUser()?.FindFirst(claimType);
-            // Əgər claim tapılarsa, onun Value-sunu, tapılmazsa null qaytarırıq.
             return claim?.Value;
         }
 
@@ -45,13 +41,11 @@ namespace Shared.Kernel.Services
 
         public bool IsInRole(string role)
         {
-            // IsInRole metodu onsuz da mövcuddur və düzgün işləyir.
             return GetUser()?.IsInRole(role) ?? false;
         }
 
         public IEnumerable<string> GetUserRoles()
         {
-            // FindAll metodu da mövcuddur.
             return GetUser()?.FindAll(ClaimTypes.Role).Select(c => c.Value) ?? Enumerable.Empty<string>();
         }
     }

@@ -2,7 +2,7 @@
 using MassTransit;
 using Microsoft.Extensions.Configuration;
 using System.Threading.Tasks;
-using System.Web; // HttpUtility.UrlEncode üçün
+using System.Web; 
 
 namespace Notification.Worker.Consumers
 {
@@ -21,11 +21,8 @@ namespace Notification.Worker.Consumers
         {
             var user = context.Message;
 
-            // Token-i URL üçün təhlükəsiz formata salırıq.
             var urlEncodedToken = HttpUtility.UrlEncode(user.ConfirmationToken);
 
-            // Təsdiqləmə linkini yaradırıq.
-            // Bu URL sizin IdentityService-in ünvanı olmalıdır.
             var confirmationLink = $"{_configuration["ApiSettings:IdentityApiUrl"]}/api/v1/Auth/confirm-email?userId={user.UserId}&token={urlEncodedToken}";
 
             var subject = "Confirm your Email Address";

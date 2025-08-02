@@ -1,12 +1,8 @@
-﻿// The using for the old one might not even be here, but sometimes it is.
-// using System.Net.Mail; 
-
-using MailKit.Security;
+﻿using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using Notification.Infrastructure.Interfaces;
 using System.Threading.Tasks;
-// Note: We don't need 'using MailKit.Net.Smtp;' if we use the full name below.
 
 namespace Notification.Infrastructure.Services
 {
@@ -30,8 +26,7 @@ namespace Notification.Infrastructure.Services
 
             var builder = new BodyBuilder { HtmlBody = body };
             email.Body = builder.ToMessageBody();
-
-            // SOLUTION: Specify the full namespace for MailKit's SmtpClient
+           
             using var smtp = new MailKit.Net.Smtp.SmtpClient();
 
             await smtp.ConnectAsync(emailSettings["SmtpServer"], int.Parse(emailSettings["Port"]), SecureSocketOptions.StartTls);

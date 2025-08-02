@@ -14,10 +14,6 @@ public class Program
         Host.CreateDefaultBuilder(args)
             .ConfigureServices((hostContext, services) =>
             {
-                // Infrastructure qatındakı bütün servisləri (IEmailService) qeydiyyatdan keçiririk.
                 services.AddInfrastructureServices();
-
-                // MassTransit və Consumer-lərin qeydiyyatı da burada olacaq...
-                // services.AddMassTransit(...)
             });
 }
